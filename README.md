@@ -58,42 +58,86 @@ Plasma welding offers the most significant degree of flexibility because the ope
 5. Click Update to generate the program and then Simulate.
 6. ![image](https://user-images.githubusercontent.com/36288975/173730531-c72ca3bd-9eb2-4a06-9e88-8a745cd0c5fd.png)
 First, you should fix the path itself:
-1. In the Curve Follow Project, click on Select Curve (going from 1 to 2, then 3 to 4, 5 to 6, 7 to 8, and 9
+7. In the Curve Follow Project, click on Select Curve (going from 1 to 2, then 3 to 4, 5 to 6, 7 to 8, and 9
 to 10).
-2. The order from the welding sections makes sense. However, the welding direction does not seem to
+8. The order from the welding sections makes sense. However, the welding direction does not seem to
 make sense.
-3. To switch the direction of a welding path (such as path 3 to 4), right click the path and select Reverse
+9. To switch the direction of a welding path (such as path 3 to 4), right click the path and select Reverse
 direction – you can see that the arrows of that path changed direction.
-4. You can do the same for path 5 to 6 and path 7 to 8.
-5. Once your modifications are done, you can select Done on the right window.
-6. Click Update to generate the program and Simulate to start the simulation.
+10. You can do the same for path 5 to 6 and path 7 to 8.
+11. Once your modifications are done, you can select Done on the right window.
+12. Click Update to generate the program and Simulate to start the simulation.
 Now that the order of the paths seems to make more sense, you can adjust the orientation of the tool along the
 path to better improve the robot motion.
-7. In the Curve Follow Project menu, click on Show preferred tool path. A variety of ghost tools will
+13. In the Curve Follow Project menu, click on Show preferred tool path. A variety of ghost tools will
 appear to show you the orientation of the tool for different positions along the path.
-8. The first tool orientation option that you can try is the Path to tool offset around the “Z” axis. To do so,
+14. The first tool orientation option that you can try is the Path to tool offset around the “Z” axis. To do so,
 you can manually enter in a value or bring your mouse over it and use the scroll wheel to bring your value
 up or down.
-9. By doing this, you can see the orientation of the ghost tool changing
-10. ![image](https://user-images.githubusercontent.com/36288975/173730657-fe5452ba-90f3-4dab-9a1f-39682983ef41.png)
-11. In this case, the basic option does not seem to fix our problem. Fortunately, you can have more options to work
+15. By doing this, you can see the orientation of the ghost tool changing
+16. ![image](https://user-images.githubusercontent.com/36288975/173730657-fe5452ba-90f3-4dab-9a1f-39682983ef41.png)
+17. In this case, the basic option does not seem to fix our problem. Fortunately, you can have more options to work
 with; you can reveal them by clicking the blue plus button and change them according to your project.
-10. You can change the rotation around the Z axis (rotz) to its original value, zero, and then click on the “+Z”
+18. You can change the rotation around the Z axis (rotz) to its original value, zero, and then click on the “+Z”
 button.
-11. As you can see with the ghost tools, the robot flange will always be on top of the part. Click Update and
+19. As you can see with the ghost tools, the robot flange will always be on top of the part. Click Update and
 then Simulate to simulate the result.
-12. If you use the scroll bar, the new tool orientation facilitates the cable management of the tool; it has no
+20. If you use the scroll bar, the new tool orientation facilitates the cable management of the tool; it has no
 risk of interfering with the robot.
 ![image](https://user-images.githubusercontent.com/36288975/173730700-8782988f-bb79-465e-95f4-e4041b740c70.png)
 
-1. Put back the default normal approach of 100 mm.
-2. Add a movement, for example, along Z.
-3. Set it to 50 mm.
-4. Press Update and Simulate once you are finished.
-5. Now the robot retracts normal to the welding path and then straight up
-6. ![image](https://user-images.githubusercontent.com/36288975/173730741-29331e12-e805-44da-bc71-798894720348.png)
+21. Put back the default normal approach of 100 mm.
+22. Add a movement, for example, along Z.
+23. Set it to 50 mm.
+24. Press Update and Simulate once you are finished.
+25. Now the robot retracts normal to the welding path and then straight up
+26. ![image](https://user-images.githubusercontent.com/36288975/173730741-29331e12-e805-44da-bc71-798894720348.png)
 
 
-### Results of simulation 
+## Program
+```python
+import sys
+import os
+sys.path.append(os.path.abspath(r"""C:/Users/Robotics/Downloads/apps/RoboDK/Posts/""")) # temporarily add path to POSTS folder
+
+from Doosan_Robotics import *
+
+try:
+  from robodk.robomath import PosePP as p
+except:
+  # This will be removed in future versions of RoboDK
+  from robodk import PosePP as p
+
+
+print('Total instructions: 9')
+r = RobotPost(r"""Doosan_Robotics""",r"""Doosan Robotics A0509""",6, axes_type=['R','R','R','R','R','R'], ip_com=r"""127.0.0.1""", api_port=20500, prog_ptr=2207833217456, robot_ptr=2207866642176)
+
+r.ProgStart(r"""Prog1""")
+r.RunMessage(r"""Program generated by RoboDK v5.4.1 for Doosan Robotics A0509 on 16/06/2022 21:13:52""",True)
+r.RunMessage(r"""Using nominal kinematics.""",True)
+r.MoveJ(p(-3.04895,-73.119,506.25,-40,0,180),[30.7146,14.5849,19.949,-107.346,-135.635,130.071],[1,1,0])
+r.MoveJ(p(-45.0575,-55.1425,506.25,-40,0,-180),[38.117,9.56376,26.9833,-113.724,-130.902,129.559],[1,1,0])
+r.MoveJ(p(-64.4577,-25.4224,506.25,-40,0,180),[45.0784,10.5441,25.6814,-117.64,-127.32,132.237],[1,1,0])
+r.MoveJ(p(-70.9703,7.58154,506.25,-40,0,-180),[50.216,14.7508,19.7004,-119.632,-125.562,135.941],[1,1,0])
+r.MoveJ(p(-63.7476,38.3737,506.25,-45,0,180),[53.106,14.2671,20.4222,-124.682,-121.646,138.559],[1,1,0])
+r.MoveJ(p(-41.2798,62.8588,506.25,-50,0,-180),[53.546,14.9204,19.4452,-127.936,-119.353,140.979],[1,1,0])
+r.MoveJ(p(-2.25533,73.6122,506.25,-55,0,-180),[50.5473,15.5671,18.4613,-129.057,-118.683,142.082],[1,1,0])
+r.MoveJ(p(40.306,60.6497,506.25,-55,0,-180),[43.4938,21.9554,7.73618,-122.234,-124.231,143.662],[1,1,0])
+r.MoveJ(p(-3.04895,-73.119,506.25,-40,0,180),[30.7146,14.5849,19.949,-107.346,-135.635,130.071],[1,1,0])
+r.ProgFinish(r"""Prog1""")
+r.ProgSave(r"""C:/Users/Robotics/OneDrive/Documents/RoboDK""",r"""Prog1""",True,r"""C:/Users/Robotics/Downloads/apps/RoboDK/Other/VSCodium/VSCodium.exe""")
+
+```
+## Simulation: 
+![image](https://user-images.githubusercontent.com/103049243/174421220-a690a68a-def6-478a-85f0-9bea490a2e6a.png)
+![image](https://user-images.githubusercontent.com/103049243/174421241-61558fe5-06f2-4758-b079-0a3c48fb9f85.png)
+![image](https://user-images.githubusercontent.com/103049243/174421271-fbc7c2d3-5a83-4994-b1b8-c1ccb2e1502d.png)
+![image](https://user-images.githubusercontent.com/103049243/174421301-9e7a9d42-2a90-4944-9d49-3d9daea4978f.png)
+![image](https://user-images.githubusercontent.com/103049243/174421307-a8e2043d-f718-4604-8c01-ce84bc4170cd.png)
+![image](https://user-images.githubusercontent.com/103049243/174421320-462b1ef8-7be4-475a-a4df-ddf07b019533.png)
+
+## Result:
+Thus, an environment for welding operation using robodk is Designed & simulated.
+
 
 
